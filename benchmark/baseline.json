@@ -1,5 +1,5 @@
 {
-  "implementation": "upstream 79e4379? (see README)",
+  "implementation": "upstream d31d821d56c8f7756af9c30a864077f2e5855321 (src/iterutils_baseline.py)",
   "environment": {
     "cpu": "AMD EPYC 7K62 48-Core Processor",
     "mem_total_mb": 3723,
