@@ -38,22 +38,18 @@ p25/p75 与原始样本在 `benchmark/raw/`（64 个文件）；large-redact 的
 | G4 最大规模 | **通过**：1.3165x ≥0.95x | 同上，large 行 |
 | G5 内存 | **通过**：峰值 RSS 30,772 KB vs 30,772 KB（1.000x） | `/usr/bin/time -v python /tmp/memrun.py src/iterutils_patched.py`（脚本见下） |
 
-G5 复现脚本（对 869 KB 文档 remap 12 次）：
-```python
-import importlib.util, json, resource
-s = importlib.util.spec_from_file_location("m", "src/iterutils_baseline.py" if __import__("sys").argv[1]=="base" else "src/iterutils_patched.py")
-m = importlib.util.module_from_spec(s); s.loader.exec_module(m)
-doc = json.load(open("corpus/real/compounds.json"))
-for _ in range(12): m.remap(doc, visit=m.default_visit)
-print(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
-```
+G5 复现命令（\`benchmark/mem.py\` 对 869 KB 文档 remap 12 次）：
+\`\`\`bash
+/usr/bin/time -f "%M" .venv/bin/python benchmark/mem.py base
+/usr/bin/time -f "%M" .venv/bin/python benchmark/mem.py opt
+\`\`\`
 
 ## 复现（3 条命令）
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install pytest && .venv/bin/python -m pytest tests -q -s
 .venv/bin/python benchmark/bench.py --reps 5 --warmup 3
-git clone https://github.com/mahmoud/boltons.git /tmp/b && cd /tmp/b && git apply ../patch.diff && python -m pytest tests -q
+git clone https://github.com/mahmoud/boltons.git /tmp/b && git -C /tmp/b apply "$PWD/patch.diff" && (cd /tmp/b && python -m pytest tests -q)
 ```
 
 ## 环境
