@@ -1,0 +1,34 @@
+diff --git a/boltons/iterutils.py b/boltons/iterutils.py
+index f63cda5..2be677e 100644
+--- a/boltons/iterutils.py
++++ b/boltons/iterutils.py
+@@ -1103,7 +1103,14 @@ _orig_default_visit = default_visit
+ 
+ def default_enter(path, key, value):
+     # print('enter(%r, %r)' % (key, value))
+-    if isinstance(value, (str, bytes)):
++    cls = value.__class__
++    if cls is dict:
++        # fast path for the overwhelmingly common plain-dict case,
++        # avoids ABC isinstance checks and ItemsView construction
++        return {}, value.items()
++    elif cls is list:
++        return [], enumerate(value)
++    elif isinstance(value, (str, bytes)):
+         return value, False
+     elif isinstance(value, Mapping):
+         return value.__class__(), ItemsView(value)
+@@ -1129,7 +1136,12 @@ def default_exit(path, key, old_parent, new_parent, new_items):
+     # print('exit(%r, %r, %r, %r, %r)'
+     #       % (path, key, old_parent, new_parent, new_items))
+     ret = new_parent
+-    if isinstance(new_parent, Mapping):
++    cls = new_parent.__class__
++    if cls is dict:
++        new_parent.update(new_items)
++    elif cls is list:
++        new_parent.extend([v for i, v in new_items])
++    elif isinstance(new_parent, Mapping):
+         new_parent.update(new_items)
+     elif isinstance(new_parent, Sequence):
+         vals = [v for i, v in new_items]

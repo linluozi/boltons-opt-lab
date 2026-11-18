@@ -1,0 +1,122 @@
+{
+  "implementation": "upstream 79e4379? (see README)",
+  "environment": {
+    "cpu": "AMD EPYC 7K62 48-Core Processor",
+    "mem_total_mb": 3723,
+    "python": "3.12.3",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.39",
+    "seed": 20261118
+  },
+  "method": {
+    "timer": "time.perf_counter()",
+    "reps": 5,
+    "warmup": 3,
+    "seed": 20261118,
+    "statistic": "median of per-iteration milliseconds",
+    "corpus": "12 boto3 AWS resource models + deepdiff compounds fixture (real files, not generated)"
+  },
+  "scales": {
+    "small": {
+      "doc": "boto3-dynamodb.json",
+      "doc_bytes": 3849,
+      "doc_sha256": "8412dad49b7b6dd4f9e7b53d03b51c4a2f120a938d2b375bb43453ce3335f98d",
+      "iterations": 128,
+      "runs": {
+        "identity": {
+          "median_ms": 0.2527329415897839,
+          "p25_ms": 0.2525028321542777,
+          "p75_ms": 0.25554338935762644,
+          "rel_stdev": 0.09373046701148538,
+          "n": 5,
+          "speedup": 1.4438387324707964
+        },
+        "redact": {
+          "median_ms": 0.3206427281838842,
+          "p25_ms": 0.3088364683208056,
+          "p75_ms": 0.33777556382119656,
+          "rel_stdev": 0.16488377907590931,
+          "n": 5,
+          "speedup": 1.8127591026470788
+        }
+      }
+    },
+    "medium": {
+      "doc": "boto3-ec2.json",
+      "doc_bytes": 76922,
+      "doc_sha256": "bf1ed888bfac52f0457a8e1267cd46ed06b61f2fb2eb1638cf66254b1effc04c",
+      "iterations": 16,
+      "runs": {
+        "identity": {
+          "median_ms": 4.5247445232234895,
+          "p25_ms": 4.496937966905534,
+          "p75_ms": 4.543457878753543,
+          "rel_stdev": 0.00916758086440344,
+          "n": 5,
+          "speedup": 1.418485242543682
+        },
+        "redact": {
+          "median_ms": 4.874554055277258,
+          "p25_ms": 4.785358323715627,
+          "p75_ms": 4.9051810638047755,
+          "rel_stdev": 0.02083936956826092,
+          "n": 5,
+          "speedup": 1.4812608325251722
+        }
+      }
+    },
+    "large": {
+      "doc": "compounds.json",
+      "doc_bytes": 869246,
+      "doc_sha256": "64bf93193e2a70da6935801554c1b22050533cc8c1aff8a4293f46ae9c2cc427",
+      "iterations": 1,
+      "runs": {
+        "identity": {
+          "median_ms": 16.259758733212948,
+          "p25_ms": 16.162114217877388,
+          "p75_ms": 16.37570746243,
+          "rel_stdev": 0.04825875339713166,
+          "n": 5,
+          "speedup": 1.3164741760793088
+        },
+        "redact": {
+          "median_ms": 18.11244059354067,
+          "p25_ms": 17.10639987140894,
+          "p75_ms": 20.06207685917616,
+          "rel_stdev": 0.1845643259003234,
+          "n": 5,
+          "speedup": 1.3894622523093243
+        }
+      }
+    }
+  },
+  "real_corpus": {
+    "identity": {
+      "median_ms": 9.588557295501232,
+      "p25_ms": 9.564750827848911,
+      "p75_ms": 9.681520983576775,
+      "rel_stdev": 0.011471427021554402,
+      "n": 5,
+      "documents": 6,
+      "speedup": 1.4101308950827338
+    },
+    "redact": {
+      "median_ms": 10.28804387897253,
+      "p25_ms": 10.168498381972313,
+      "p75_ms": 10.317957028746605,
+      "rel_stdev": 0.03258051088413937,
+      "n": 5,
+      "documents": 6,
+      "speedup": 1.4738171288918216
+    }
+  },
+  "command": "python benchmark/bench.py --reps 5 --warmup 3",
+  "seed": 20261118,
+  "upstream_tests": {
+    "command": "python -m pytest tests -q",
+    "before": "621 passed, 22 subtests, 3.20 s",
+    "after": "621 passed, 22 subtests, 2.25 s",
+    "commit": "d31d821d56c8f7756af9c30a864077f2e5855321"
+  },
+  "cpu": "AMD EPYC 7K62 48-Core Processor",
+  "memory_mb": 3723
+}

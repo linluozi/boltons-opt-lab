@@ -1,0 +1,10 @@
+{
+ "impl": "optimized",
+ "scale": "large",
+ "visit": "identity",
+ "rep": 1,
+ "iterations": 1,
+ "seconds": 0.012531247921288013,
+ "per_iter_ms": 12.531247921288013,
+ "seed": 20261118
+}
